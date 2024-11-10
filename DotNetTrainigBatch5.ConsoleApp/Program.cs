@@ -98,7 +98,55 @@ Console.WriteLine("Connection Closed.");
 //    //Console.WriteLine(dr["DeleteFlag"]);
 //}
 
+connection.Open();
+
+Console.WriteLine("Please Blog Title: ");
+string title = Console.ReadLine();
+
+Console.WriteLine("Please Blog Author: ");
+string author = Console.ReadLine();
+
+Console.WriteLine("Please Blog Content: ");
+string contect = Console.ReadLine();
+
+//string queryInsert = $@"INSERT INTO [dbo].[Tbl_BLog]
+//           ([BlogTitle]
+//           ,[BlogAuthor]
+//           ,[BlogContent]
+//           ,[DeleteFlag])
+//     VALUES
+//           ('{title}'
+//           ,'{author}'
+//           ,'{contect}'
+//           ,'0')";
+
+string queryInsert = $@"INSERT INTO [dbo].[Tbl_BLog]
+           ([BlogTitle]
+           ,[BlogAuthor]
+           ,[BlogContent]
+           ,[DeleteFlag])
+     VALUES
+           (@BlogTitle
+           ,@BlogAuthor
+           ,@BlogContent
+           ,'0')";
 
 
+SqlCommand cmd2 = new SqlCommand(queryInsert, connection);
+//SqlDataAdapter adapter = new SqlDataAdapter(cmd2);
+//DataTable dt = new DataTable();
+//adapter.Fill(dt);
+
+cmd2.Parameters.AddWithValue("@BlogTitle", title);
+cmd2.Parameters.AddWithValue("@BlogAuthor", title);
+cmd2.Parameters.AddWithValue("@BlogContent", title);
+
+int result = cmd2.ExecuteNonQuery();
+
+Console.WriteLine(result == 1 ? "Insert Successful." : "Inesert Failed.");
+
+connection.Close();
+
+Console.ReadKey();
 
 
