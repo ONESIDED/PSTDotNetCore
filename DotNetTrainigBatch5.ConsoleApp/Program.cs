@@ -4,9 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 
+
+const string connectionString = "Data Source= MSI\\MSSQLSERVER2019; Initial Catalog=DotNetTrainingBatch5; User ID=sa; Password=sasa;";
+
 Console.WriteLine("Hello, World!");
 //Console.Read();
 Console.ReadKey();
+
+#region
 //Console.ReadLine();
 
 //markdown
@@ -27,7 +32,7 @@ Console.ReadKey();
 // 100 = 99
 
 //101
-string connectionString = "Data Source= MSI\\MSSQLSERVER2019; Initial Catalog=DotNetTrainingBatch5; User ID=sa; Password=sasa;";
+#endregion
 
 Console.WriteLine("Connection String: "+ connectionString);
 SqlConnection connection = new SqlConnection(connectionString);
@@ -46,6 +51,7 @@ string query = @"SELECT [BlogId]
 SqlCommand cmd = new SqlCommand(query, connection);
 
 SqlDataReader reader = cmd.ExecuteReader();
+
 reader.Read();
 while (reader.Read())
 {
@@ -55,6 +61,7 @@ while (reader.Read())
     Console.WriteLine(reader["BlogContent"]);
 }
 
+// ExecuteReaderAsnyc အကြောင်းကိုမေးရန်
 // dr နေရာမှာ reader ကိုပဲရွေးပြီး select မှတ်တာကိုမေးရန် ?1
 // မှားပြီး commit all လုပ်လိုက်တာကို push မလုပ်ခင် message ပြန်ပြင်ချင်ရင် ဘယ်လိုပြန်လုပ်လို့ရလဲ နာမည်ပြန်ခွဲပြီးပေးချင်တာမျိုးပါ ?2
 
@@ -90,3 +97,8 @@ Console.WriteLine("Connection Closed.");
 //    Console.WriteLine(dr["BlogContent"]);
 //    //Console.WriteLine(dr["DeleteFlag"]);
 //}
+
+
+
+
+
