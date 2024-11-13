@@ -234,5 +234,30 @@ namespace DotNetTrainigBatch5.ConsoleApp
 
             Console.WriteLine(result == 1 ? "Update Successful." : "Update Failed.");
         }
+
+        public void Delete() 
+        {
+            Console.Write("Blog Id: ");
+            string id = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(id)) { return; }
+
+            SqlConnection connection = new SqlConnection(_connectionString);
+
+            connection.Open();
+
+            string query = @"UPDATE [dbo].[Tbl_BLog]
+   SET [DeleteFlag] = 1
+ WHERE [BlogId] = @BlogId and [DeleteFlag] = 0";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@BlogId", id);
+
+            int result = cmd.ExecuteNonQuery();
+
+            connection.Close();
+
+            Console.WriteLine(result == 1 ? "Delete Successful." : "Delete Failed.");
+        }
     }
 }
