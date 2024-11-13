@@ -36,15 +36,28 @@ using System.Data.SqlClient;
 // dr နေရာမှာ reader ကိုပဲရွေးပြီး select မှတ်တာကိုမေးရန် ?1 ိdone (Alt + left click drag)
 // မှားပြီး commit all လုပ်လိုက်တာကို push မလုပ်ခင် message ပြန်ပြင်ချင်ရင် ဘယ်လိုပြန်လုပ်လို့ရလဲ နာမည်ပြန်ခွဲပြီးပေးချင်တာမျိုးပါ ?2
 
+
+//Array ကြော်ငြာတာပါ 
+//string[] apple1 = new string[3];
+
+//string[] apple = { "1", "2" };
+//Console.WriteLine(apple[0]);
+//Console.WriteLine(apple[1]);
+
+//နောက်ဆုံး အခန်းကို C# မှာ စစ်လို့မရတော့ပါ C မှာပဲ ရပါတော့တယ်
+
 #endregion
 
 
-AdoDotNetExample adoDotNetExample = new AdoDotNetExample();
+//AdoDotNetExample adoDotNetExample = new AdoDotNetExample();
 //adoDotNetExample.Read();
 //adoDotNetExample.Create();
 //adoDotNetExample.Edit();
 //adoDotNetExample.Update();
-adoDotNetExample.Delete();
+//adoDotNetExample.Delete();
+
+DapperExample dapperExample = new DapperExample();
+dapperExample.Read();
 
 
 
