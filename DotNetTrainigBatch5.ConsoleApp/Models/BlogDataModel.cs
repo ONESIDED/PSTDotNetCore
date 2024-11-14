@@ -14,6 +14,8 @@ namespace DotNetTrainigBatch5.ConsoleApp.Models
         public string BlogContent { get; set; }
         public bool DeleteFlag { get; set; }
 
+        // 1
+
 
     }
 }
