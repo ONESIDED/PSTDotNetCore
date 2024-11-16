@@ -3,8 +3,10 @@ using DotNetTrainigBatch5.ConsoleApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +16,7 @@ namespace DotNetTrainigBatch5.ConsoleApp
     {
         private readonly string _connectionString = "Data Source= MSI\\MSSQLSERVER2019; Initial Catalog=DotNetTrainingBatch5; User ID=sa; Password=sasa;";
 
-        public void Read() 
+        public void Read()
         {
             #region Dapper ကိုဟာကို ဖြည့်ပြီး Bind တာပါ
             //using (IDbConnection db = new SqlConnection(_connectionString))
@@ -49,6 +51,66 @@ namespace DotNetTrainigBatch5.ConsoleApp
                 }
 
             }
+        }
+
+        public void Create(string title, string author, string content)
+        {
+            string query = $@"INSERT INTO [dbo].[Tbl_BLog]
+           ([BlogTitle]
+           ,[BlogAuthor]
+           ,[BlogContent]
+           ,[DeleteFlag])
+     VALUES
+           (@BlogTitle
+           ,@BlogAuthor
+           ,@BlogContent
+           ,'0')";
+
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                int result = db.Execute(query, new BlogDataModel
+                {
+                    BlogTitle = title,
+                    BlogAuthor = author,
+                    BlogContent = content
+                });
+                Console.WriteLine(result == 1 ? "Saving Successful." : "Saving Failed.");
+
+            }
+
+
+        }
+
+        public void Edit(int Id)
+        {
+            string query = $@"SELECT [BlogId]
+      ,[BlogTitle]
+      ,[BlogAuthor]
+      ,[BlogContent]
+      ,[DeleteFlag]
+  FROM [dbo].[Tbl_BLog] where BlogId = @BlogId and [DeleteFlag] = 0";
+
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                var item = db.Query<BlogDataModel>(query, new BlogDataModel
+                {
+                    BlogId = Id
+                }).FirstOrDefault();
+
+                if (item is null)
+                {
+                    Console.WriteLine("No data found.");
+                    return;
+                }
+
+                Console.WriteLine(item.BlogId);
+                Console.WriteLine(item.BlogTitle);
+                Console.WriteLine(item.BlogAuthor);
+                Console.WriteLine(item.BlogContent);
+
+            }
+
+
         }
     }
 }

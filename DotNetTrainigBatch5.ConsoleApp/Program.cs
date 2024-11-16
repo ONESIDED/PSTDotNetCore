@@ -57,7 +57,10 @@ using System.Data.SqlClient;
 //adoDotNetExample.Delete();
 
 DapperExample dapperExample = new DapperExample();
-dapperExample.Read();
+//dapperExample.Read();
+//dapperExample.Create("Test-2", "PST-2", "Omen-2");
+dapperExample.Edit(1);
+dapperExample.Edit(2);
 
 
 
