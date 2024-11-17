@@ -59,8 +59,10 @@ using System.Data.SqlClient;
 DapperExample dapperExample = new DapperExample();
 //dapperExample.Read();
 //dapperExample.Create("Test-2", "PST-2", "Omen-2");
-dapperExample.Edit(1);
-dapperExample.Edit(2);
+//dapperExample.Edit(1);
+//dapperExample.Edit(2);
+//dapperExample.Update();
+dapperExample.Delete();
 
 
 
