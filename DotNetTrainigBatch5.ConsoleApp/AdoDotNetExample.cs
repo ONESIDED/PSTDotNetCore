@@ -81,13 +81,32 @@ namespace DotNetTrainigBatch5.ConsoleApp
             connection.Open();
 
             Console.WriteLine("Please Blog Title: ");
-            string title = Console.ReadLine();
+            // ဒါက nullable အတွက်ပါ
+            //string? title = Console.ReadLine(); 
+
+            // - ဒါကကျတော့ non-nullable ကို null မဖြစ်သွားဖို့အတွက် null-coalescing operator ကို null waring ရှောင်ဖို့အတွက်ရေးတာပါ။
+            string title = Console.ReadLine() ?? string.Empty;
+            if (string.IsNullOrEmpty(title))
+            {
+                Console.WriteLine("We didn`t allow the null value.");
+                return;
+            }
 
             Console.WriteLine("Please Blog Author: ");
-            string author = Console.ReadLine();
+            string? author = Console.ReadLine();
+            if (string.IsNullOrEmpty(author))
+            {
+                Console.WriteLine("We didn`t allow the null value.");
+                return;
+            }
 
             Console.WriteLine("Please Blog Content: ");
-            string content = Console.ReadLine();
+            string? content = Console.ReadLine();
+            if (string.IsNullOrEmpty(content))
+            {
+                Console.WriteLine("We didn`t allow the null value.");
+                return;
+            }
 
             //string queryInsert = $@"INSERT INTO [dbo].[Tbl_BLog]
             //           ([BlogTitle]
@@ -117,20 +136,7 @@ namespace DotNetTrainigBatch5.ConsoleApp
             //DataTable dt = new DataTable();
             //adapter.Fill(dt);
 
-            if (string.IsNullOrEmpty(title))
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(author))
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(content))
-            {
-                return;
-            }
+            
             cmd.Parameters.AddWithValue("@BlogTitle", title);
             cmd.Parameters.AddWithValue("@BlogAuthor", author);
             cmd.Parameters.AddWithValue("@BlogContent", content);
@@ -147,7 +153,7 @@ namespace DotNetTrainigBatch5.ConsoleApp
             //Console.WriteLine("Blog Id: ");
             //Console.WriteLine(); နဲရေးမယ်ဆိုရင် ကိုယ်ရေးတဲံ့စာကို အောက်တစ်ကြောင်းဆင်းပြီးပြနေပါလိမ့်မယ်
             Console.Write("Blog Id: ");
-            string id = Console.ReadLine();
+            string? id = Console.ReadLine();
 
             if (string.IsNullOrEmpty(id)) { return; }
 
@@ -198,22 +204,22 @@ namespace DotNetTrainigBatch5.ConsoleApp
             #endregion
         }
 
-        public void Update() 
+        public void Update()
         {
             SqlConnection connection = new SqlConnection(_connectionString);
             connection.Open();
 
             Console.WriteLine("Please Blog ID: ");
-            string id = Console.ReadLine();
+            string? id = Console.ReadLine();
 
             Console.WriteLine("Please Blog Title: ");
-            string title = Console.ReadLine();
+            string? title = Console.ReadLine();
 
             Console.WriteLine("Please Blog Author: ");
-            string author = Console.ReadLine();
+            string? author = Console.ReadLine();
 
             Console.WriteLine("Please Blog Content: ");
-            string content = Console.ReadLine();
+            string? content = Console.ReadLine();
 
             string query = @"UPDATE [dbo].[Tbl_BLog]
    SET [BlogTitle] = @BlogTitle
@@ -223,7 +229,7 @@ namespace DotNetTrainigBatch5.ConsoleApp
  WHERE [BlogId] = @BlogId and [DeleteFlag] != 1";
 
             SqlCommand cmd = new SqlCommand(query, connection);
-            cmd.Parameters.AddWithValue ("@BlogId", id);
+            cmd.Parameters.AddWithValue("@BlogId", id);
             cmd.Parameters.AddWithValue("@BlogTitle", title);
             cmd.Parameters.AddWithValue("@BlogAuthor", author);
             cmd.Parameters.AddWithValue("@BlogContent", content);
@@ -235,10 +241,10 @@ namespace DotNetTrainigBatch5.ConsoleApp
             Console.WriteLine(result == 1 ? "Update Successful." : "Update Failed.");
         }
 
-        public void Delete() 
+        public void Delete()
         {
             Console.Write("Blog Id: ");
-            string id = Console.ReadLine();
+            string? id = Console.ReadLine();
 
             if (string.IsNullOrEmpty(id)) { return; }
 
