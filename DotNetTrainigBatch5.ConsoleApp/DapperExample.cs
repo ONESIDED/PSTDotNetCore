@@ -129,16 +129,16 @@ namespace DotNetTrainigBatch5.ConsoleApp
         public void Update()
         {
             Console.WriteLine("Please Blog ID: ");
-            string id = Console.ReadLine();
+            string? id = Console.ReadLine();
 
             Console.WriteLine("Please Blog Title: ");
-            string title = Console.ReadLine();
+            string? title = Console.ReadLine();
 
             Console.WriteLine("Please Blog Author: ");
-            string author = Console.ReadLine();
+            string? author = Console.ReadLine();
 
             Console.WriteLine("Please Blog Content: ");
-            string content = Console.ReadLine();
+            string? content = Console.ReadLine();
 
             string query = @"UPDATE [dbo].[Tbl_BLog]
    SET [BlogTitle] = @BlogTitle
@@ -147,24 +147,63 @@ namespace DotNetTrainigBatch5.ConsoleApp
       ,[DeleteFlag] = 0
  WHERE [BlogId] = @BlogId and [DeleteFlag] != 1";
 
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                int result = db.Execute(query, new BlogDataModel
-                {
-                    BlogId = int.Parse(id),
-                    BlogTitle = title,
-                    BlogAuthor = author,
-                    BlogContent = content
-                });
-                Console.WriteLine(result == 1 ? "Updating Successful." : "Updating Failed.");
+            #region ပြန်ကြည့်ရန် (warning CS8604 ဖြေရှင်းနည်းပါ)
 
+            //  ဒါတွေ အကုန်လုံးကိုလုပ်နေတာ null value ကိုလက်ခံလို့မရတဲ့နေရာက int ကို warning လည်းပျောက်ရမယ်။
+            //  တန်ဖိုးကိုလည်း ပေးကိုပေးရန် အတွက်လုပ်ထားတာပါ။ (warning CS8604 ဖြေရှင်းနည်းပါ)
+
+            // ၁။   try catch ကိုရေးထားရတာက error message က စာကိုပြန်စေချင်လို့ပါ console မှာက စာကိုပြန်ဒီတိုင်းပြန်ရင်လဲရတယ်
+            //      ဒါပေမယ့် ပိုသေချာချင်လို့ရယ် id ကို null ဖြစ်လာမယ်အခါ null value ကို run သွားပြီး database မှာသွားရှာနေတာကို ကာကွယ်ချင်လို့ပါ
+
+            // ၂။   စာကိုဒီတိုင်းပြန်ပြထားတာပါ အဖြေကတော့ရတယ် လက်မခံတာကို ပြပေးတယ် ရပ်သွားတယ်ဆိုပေမယ့် ရေးထားကုဒ်ကို လုံနေချင်လို့ပါ/
+
+            //using (IDbConnection db = new SqlConnection(_connectionString))
+            //{
+            //    if (!int.TryParse(id, out int blogId))
+            //    {
+            //        throw new ArgumentNullException("ID must be a valid integer.", nameof(id));
+            //    }
+            //    int result = db.Execute(query, new BlogDataModel
+            //    {
+            //        BlogId = int.Parse(id),
+            //        BlogTitle = title,
+            //        BlogAuthor = author,
+            //        BlogContent = content
+            //    });
+            //    Console.WriteLine(result == 1 ? "Updating Successful." : "Updating Failed.");
+            //}
+
+            #endregion
+
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    if (!int.TryParse(id, out int blogId))
+                    {
+                        throw new ArgumentNullException("ID must be a valid integer.", nameof(id));
+                    }
+                    int result = db.Execute(query, new BlogDataModel
+                    {
+                        BlogId = int.Parse(id),
+                        BlogTitle = title,
+                        BlogAuthor = author,
+                        BlogContent = content
+                    });
+                    Console.WriteLine(result == 1 ? "Updating Successful." : "Updating Failed.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                throw;
             }
         }
 
         public void Delete()
         {
             Console.Write("Blog Id: ");
-            string id = Console.ReadLine();
+            string? id = Console.ReadLine();
 
             if (string.IsNullOrEmpty(id)) { return; }
 

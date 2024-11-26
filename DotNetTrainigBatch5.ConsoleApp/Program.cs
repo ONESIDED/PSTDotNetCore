@@ -61,8 +61,8 @@ DapperExample dapperExample = new DapperExample();
 //dapperExample.Create("Test-2", "PST-2", "Omen-2");
 //dapperExample.Edit(1);
 //dapperExample.Edit(2);
-//dapperExample.Update();
-dapperExample.Delete();
+dapperExample.Update();
+//dapperExample.Delete();
 
 
 
