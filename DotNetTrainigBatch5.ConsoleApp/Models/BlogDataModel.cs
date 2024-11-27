@@ -15,5 +15,6 @@ namespace DotNetTrainigBatch5.ConsoleApp.Models
         public bool DeleteFlag { get; set; }
 
         // 1
+        // 2
     }
 }
